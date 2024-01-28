@@ -1,18 +1,20 @@
 import { Outlet, NavLink } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 import Navbar from '../components/Navbar';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
+import Toolbar from '../components/Toolbar';
 
 export default function RootLayout() {
+	const theme = useTheme();
 	return (
-		<div className="root-layout">
-			<header>
-				<Navbar />
-			</header>
+		<Box className="root-layout" sx={{ bgcolor: theme.palette.background.default }}>
+			<Navbar />
 			<main>
 				<Container>
 					<Outlet />
+					<Toolbar />
 				</Container>
 			</main>
-		</div>
+		</Box>
 	);
 }

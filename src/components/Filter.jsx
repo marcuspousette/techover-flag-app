@@ -9,6 +9,10 @@ export default function Filter({ setSearchParams }) {
 	const [region, setRegion] = React.useState('');
 
 	const handleChange = (event) => {
+		if (event.target.value === 'All') {
+			setSearchParams({});
+			return;
+		}
 		setSearchParams({ region: event.target.value });
 		setRegion(event.target.value);
 	};
@@ -24,10 +28,12 @@ export default function Filter({ setSearchParams }) {
 					label="Region"
 					onChange={handleChange}
 				>
+					<MenuItem value={'All'}>All</MenuItem>
 					<MenuItem value={'africa'}>Africa</MenuItem>
 					<MenuItem value={'america'}>America</MenuItem>
 					<MenuItem value={'asia'}>Asia</MenuItem>
 					<MenuItem value={'europ'}>Europ</MenuItem>
+					<MenuItem value={'oceania'}>Oceania</MenuItem>
 				</Select>
 			</FormControl>
 		</Box>
