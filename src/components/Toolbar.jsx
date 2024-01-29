@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
-import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
-import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+//
+import Filter1Icon from '@mui/icons-material/Filter1';
+import Filter2Icon from '@mui/icons-material/Filter2';
+import Filter3Icon from '@mui/icons-material/Filter3';
+import Filter4Icon from '@mui/icons-material/Filter4';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+//
 import { Paper, Divider, ToggleButton } from '@mui/material';
 import ToggleButtonGroup, { toggleButtonGroupClasses } from '@mui/material/ToggleButtonGroup';
+import { ColorModeContext } from './App';
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 	[`& .${toggleButtonGroupClasses.grouped}`]: {
@@ -24,15 +27,18 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 export default function CustomizedDividers() {
-	const [alignment, setAlignment] = React.useState('left');
-	const [formats, setFormats] = React.useState(() => ['italic']);
+	const colorMode = React.useContext(ColorModeContext);
+	const [themeIndex, setThemeIndex] = React.useState(0);
+	const [overrideLoading, setOverrideLoading] = React.useState(true);
 
-	const handleFormat = (event, newFormats) => {
-		setFormats(newFormats);
+	const handleFormat = (event, value) => {
+		colorMode.toggleLoadingOverride(value === false ? true : false);
+		setOverrideLoading((v) => (v === false ? true : false));
 	};
 
-	const handleAlignment = (event, newAlignment) => {
-		setAlignment(newAlignment);
+	const handleTheme = (event, themeIndex) => {
+		colorMode.toggleColorTheme(themeIndex);
+		setThemeIndex(themeIndex);
 	};
 
 	return (
@@ -49,28 +55,28 @@ export default function CustomizedDividers() {
 		>
 			<StyledToggleButtonGroup
 				size="small"
-				value={alignment}
+				value={themeIndex}
 				exclusive
-				onChange={handleAlignment}
+				onChange={handleTheme}
 				aria-label="text alignment"
 			>
-				<ToggleButton value="left" aria-label="left aligned">
-					<FormatAlignLeftIcon />
+				<ToggleButton value={0}>
+					<Filter1Icon />
 				</ToggleButton>
-				<ToggleButton value="center" aria-label="centered">
-					<FormatAlignCenterIcon />
+				<ToggleButton value={1}>
+					<Filter2Icon />
 				</ToggleButton>
-				<ToggleButton value="right" aria-label="right aligned">
-					<FormatAlignRightIcon />
+				<ToggleButton value={2}>
+					<Filter3Icon />
+				</ToggleButton>
+				<ToggleButton value={3}>
+					<Filter4Icon />
 				</ToggleButton>
 			</StyledToggleButtonGroup>
 			<Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
-			<StyledToggleButtonGroup size="small" value={formats} onChange={handleFormat} aria-label="text formatting">
-				<ToggleButton value="bold" aria-label="bold">
-					<FormatBoldIcon />
-				</ToggleButton>
-				<ToggleButton value="italic" aria-label="italic">
-					<FormatItalicIcon />
+			<StyledToggleButtonGroup exclusive size="small" value={overrideLoading} onChange={handleFormat}>
+				<ToggleButton value={false}>
+					<HourglassTopIcon />
 				</ToggleButton>
 			</StyledToggleButtonGroup>
 		</Paper>

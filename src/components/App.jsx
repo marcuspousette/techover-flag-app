@@ -1,10 +1,9 @@
 import './App.css';
-import * as React from 'react';
+import { useState, createContext, useMemo } from 'react';
 import { getDesignTokens } from '../utils/theme';
 import { getBlueTheme } from '../utils/blue';
 import { getGreenTheme } from '../utils/green';
 import { getCraztTheme } from '../utils/crazy';
-
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import Home, { allCountrysLoader } from '../pages/Home';
@@ -27,27 +26,35 @@ const router = createBrowserRouter(
 	)
 );
 
-export const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = createContext({});
 
 function App() {
-	const [mode, setMode] = React.useState('light');
-	const colorMode = React.useMemo(
-		() => ({
-			toggleColorMode: () => {
-				setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-			}
-		}),
-		[]
-	);
+	const [mode, setMode] = useState('dark');
+	const [themeIndex, setThemeIndex] = useState(0);
+	const [loadingOverride, setLoadingOverride] = useState(false);
 
-	const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-	const blueTheme = React.useMemo(() => createTheme(getBlueTheme(mode)), [mode]);
-	const greenTheme = React.useMemo(() => createTheme(getGreenTheme(mode)), [mode]);
-	const crazyTheme = React.useMemo(() => createTheme(getCraztTheme(mode)), [mode]);
+	const context = useMemo(() => ({
+		toggleColorMode: () => {
+			setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+		},
+		toggleColorTheme: (index) => {
+			setThemeIndex(index);
+		},
+		toggleLoadingOverride: (value) => {
+			setLoadingOverride(value);
+		},
+		loadingOverride
+	}));
+
+	const projectTheme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+	const blueTheme = useMemo(() => createTheme(getBlueTheme(mode)), [mode]);
+	const greenTheme = useMemo(() => createTheme(getGreenTheme(mode)), [mode]);
+	const crazyTheme = useMemo(() => createTheme(getCraztTheme(mode)), [mode]);
+	const themes = [projectTheme, blueTheme, greenTheme, crazyTheme];
 
 	return (
-		<ColorModeContext.Provider value={colorMode}>
-			<ThemeProvider theme={blueTheme}>
+		<ColorModeContext.Provider value={context}>
+			<ThemeProvider theme={themes[themeIndex]}>
 				<RouterProvider router={router} />
 			</ThemeProvider>
 		</ColorModeContext.Provider>
