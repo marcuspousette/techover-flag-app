@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useNavigation } from 'react-router-dom';
 import { Box, Grid, Stack, Typography, Button, Skeleton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CountryChips from '../components/CountryChips';
@@ -7,9 +7,10 @@ import { useContext } from 'react';
 
 export default function CountryDetails() {
 	const { loadingOverride } = useContext(ColorModeContext);
-
+	const { state } = useNavigation();
 	const navigate = useNavigate();
 	const [country] = useLoaderData();
+	console.log(country);
 
 	return (
 		<Box className="CountryDetails">
@@ -22,7 +23,7 @@ export default function CountryDetails() {
 			</Grid>
 			<Grid container columnSpacing={8} mt={4}>
 				<Grid item md={6} xs={12}>
-					{loadingOverride ? (
+					{loadingOverride || state === 'loading' ? (
 						<Skeleton variant="rounded" width={'100%'} height={'100%'} />
 					) : (
 						<img
@@ -36,7 +37,7 @@ export default function CountryDetails() {
 				<Grid item md={6} xs={12}>
 					<Stack justifyContent="center" alignItems="start">
 						<Typography gutterBottom variant="h3" component="div" color={'primary'}>
-							{loadingOverride ? <Skeleton width={200} /> : country.name.common}
+							{loadingOverride || state === 'loading' ? <Skeleton width={200} /> : country.name.common}
 						</Typography>
 						<Grid container sapce={2} mb={8}>
 							<Grid item md={6} xs={12}>
@@ -54,7 +55,7 @@ export default function CountryDetails() {
 								</Typography>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 									<strong>Region: </strong>
-									{loadingOverride ? (
+									{loadingOverride || state === 'loading' ? (
 										<Skeleton
 											variant="text"
 											width={60}
@@ -66,7 +67,7 @@ export default function CountryDetails() {
 								</Typography>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 									<strong>Capital: </strong>
-									{loadingOverride ? (
+									{loadingOverride || state === 'loading' ? (
 										<Skeleton
 											variant="text"
 											width={60}
@@ -78,21 +79,21 @@ export default function CountryDetails() {
 								</Typography>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 									<strong>Native name: </strong>
-									{loadingOverride ? (
+									{loadingOverride || state === 'loading' ? (
 										<Skeleton
 											variant="text"
 											width={60}
 											sx={{ display: 'inline-block', fontSize: '0.875rem', marginLeft: '5px' }}
 										/>
 									) : (
-										country.name.nativeName[Object.keys(country.name.nativeName)[0]].common
+										country.name?.nativeName[Object.keys(country.name?.nativeName)[0]].common
 									)}
 								</Typography>
 							</Grid>
 							<Grid item md={6} xs={12}>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 									<strong>Top Level Domain: </strong>
-									{loadingOverride ? (
+									{loadingOverride || state === 'loading' ? (
 										<Skeleton
 											variant="text"
 											width={60}
@@ -104,26 +105,26 @@ export default function CountryDetails() {
 								</Typography>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 									<strong>Currencies: </strong>
-									{loadingOverride ? (
+									{loadingOverride || state === 'loading' ? (
 										<Skeleton
 											variant="text"
 											width={60}
 											sx={{ display: 'inline-block', fontSize: '0.875rem', marginLeft: '5px' }}
 										/>
 									) : (
-										country.currencies[Object.keys(country.currencies)[0]].name
+										country?.currencies[Object.keys(country.currencies)[0]].name
 									)}
 								</Typography>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 									<strong>Language: </strong>
-									{loadingOverride ? (
+									{loadingOverride || state === 'loading' ? (
 										<Skeleton
 											variant="text"
 											width={60}
 											sx={{ display: 'inline-block', fontSize: '0.875rem', marginLeft: '5px' }}
 										/>
 									) : (
-										country.languages[Object.keys(country.languages)[0]]
+										country?.languages[Object.keys(country.languages)[0]]
 									)}
 								</Typography>
 							</Grid>
@@ -132,7 +133,7 @@ export default function CountryDetails() {
 							<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 								<strong>Border Countries: </strong>
 							</Typography>
-							{loadingOverride ? (
+							{loadingOverride || state === 'loading' ? (
 								<>
 									<Skeleton variant="rounded" width={50} height={25} />
 									<Skeleton variant="rounded" width={50} height={25} />

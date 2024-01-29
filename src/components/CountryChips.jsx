@@ -11,7 +11,7 @@ export default function CountryChips({ borders }) {
 
 	if (!borders || borders.length === 0) {
 		return (
-			<Typography gutterBottom variant="body1" component="div">
+			<Typography gutterBottom variant="body1" component="div" color="primary">
 				This country has no border Border Countries
 			</Typography>
 		);

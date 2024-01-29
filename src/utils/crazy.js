@@ -34,6 +34,26 @@ export const getCraztTheme = (mode) => ({
 			  }
 			: {
 					mode: 'dark',
+					primary: palette.augmentColor({
+						color: {
+							main: '#f57c00',
+							contrastText: '#000000'
+						}
+					}),
+					secondary: palette.augmentColor({
+						color: {
+							main: '#7e57c2',
+							contrastText: '#fff'
+						}
+					}),
+					text: {
+						primary: '#e6e1e6',
+						secondary: '#e6e1e6'
+					},
+					background: {
+						default: '#1c1b1e',
+						paper: '#1c1b1e'
+					},
 					upvote: palette.augmentColor({
 						color: {
 							main: '#66bb6a',
