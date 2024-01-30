@@ -9,12 +9,13 @@ export default function Filter({ setSearchParams }) {
 	const [region, setRegion] = React.useState('');
 
 	const handleChange = (event) => {
+		setRegion(event.target.value);
+
 		if (event.target.value === 'All') {
 			setSearchParams({});
 			return;
 		}
 		setSearchParams({ region: event.target.value });
-		setRegion(event.target.value);
 	};
 
 	return (

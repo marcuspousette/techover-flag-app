@@ -17,7 +17,7 @@ export default function CountryChips({ borders }) {
 		);
 	}
 	return (
-		<Stack direction="row" spacing={1}>
+		<Stack direction="row" spacing={1} sx={{ overflowX: 'auto', maxWidth: '100%' }}>
 			{borders.map((border, i) => (
 				<Chip key={i} label={border} onClick={() => handleClick(border)} />
 			))}

@@ -10,10 +10,9 @@ export default function CountryDetails() {
 	const { state } = useNavigation();
 	const navigate = useNavigate();
 	const [country] = useLoaderData();
-	console.log(country);
 
 	return (
-		<Box className="CountryDetails">
+		<Box className="CountryDetails" pb={20}>
 			<Grid container mt={4}>
 				<Grid item xs={4}>
 					<Button onClick={() => navigate('/')} startIcon={<ArrowBackIcon />}>
@@ -21,7 +20,7 @@ export default function CountryDetails() {
 					</Button>
 				</Grid>
 			</Grid>
-			<Grid container columnSpacing={8} mt={4}>
+			<Grid container columnSpacing={8} mt={4} rowSpacing={8}>
 				<Grid item md={6} xs={12}>
 					{loadingOverride || state === 'loading' ? (
 						<Skeleton variant="rounded" width={'100%'} height={'100%'} />
@@ -85,8 +84,10 @@ export default function CountryDetails() {
 											width={60}
 											sx={{ display: 'inline-block', fontSize: '0.875rem', marginLeft: '5px' }}
 										/>
-									) : (
+									) : country.name?.nativeName ? (
 										country.name?.nativeName[Object.keys(country.name?.nativeName)[0]].common
+									) : (
+										'Not available'
 									)}
 								</Typography>
 							</Grid>
@@ -111,8 +112,10 @@ export default function CountryDetails() {
 											width={60}
 											sx={{ display: 'inline-block', fontSize: '0.875rem', marginLeft: '5px' }}
 										/>
-									) : (
+									) : country.currencies ? (
 										country?.currencies[Object.keys(country.currencies)[0]].name
+									) : (
+										'Not available'
 									)}
 								</Typography>
 								<Typography gutterBottom variant="body1" component="div" color={'primary'}>
@@ -123,13 +126,15 @@ export default function CountryDetails() {
 											width={60}
 											sx={{ display: 'inline-block', fontSize: '0.875rem', marginLeft: '5px' }}
 										/>
-									) : (
+									) : country?.languages ? (
 										country?.languages[Object.keys(country.languages)[0]]
+									) : (
+										'Not available'
 									)}
 								</Typography>
 							</Grid>
 						</Grid>
-						<Stack direction="row" alignItems="center" spacing={2}>
+						<Stack direction="row" alignItems="center" spacing={2} sx={{ maxWidth: '100%' }}>
 							<Typography gutterBottom variant="body1" component="div" color={'primary'}>
 								<strong>Border Countries: </strong>
 							</Typography>

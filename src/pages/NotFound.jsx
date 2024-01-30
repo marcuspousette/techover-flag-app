@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Box, Grid, Typography, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -23,8 +23,8 @@ export default function NotFound() {
 				alignContent={{ xs: 'center', md: 'start' }}
 			>
 				<Grid item>
-					<Typography gutterBottom variant="body1" component="div">
-						Could not find that country! Go back to the <Link to="/">Home page</Link>.
+					<Typography gutterBottom variant="body1" component="div" color="primary">
+						Could not find that country!
 					</Typography>
 				</Grid>
 			</Grid>

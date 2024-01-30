@@ -37,6 +37,7 @@ export default function CustomizedDividers() {
 	};
 
 	const handleTheme = (event, themeIndex) => {
+		if (themeIndex === null) return;
 		colorMode.toggleColorTheme(themeIndex);
 		setThemeIndex(themeIndex);
 	};
@@ -50,7 +51,8 @@ export default function CustomizedDividers() {
 				position: 'fixed',
 				bottom: 50,
 				left: '50%',
-				transform: 'translateX(-50%)'
+				transform: 'translateX(-50%)',
+				minWidth: 227
 			}}
 		>
 			<StyledToggleButtonGroup

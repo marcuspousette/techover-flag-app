@@ -1,14 +1,20 @@
-import { useLoaderData, useSearchParams } from 'react-router-dom';
+import { useLoaderData, useSearchParams, useNavigation } from 'react-router-dom';
+import { useContext } from 'react';
 import Search from '../components/Search';
 import Filter from '../components/Filter';
 import { Box, Grid } from '@mui/material';
 import CountryCard from '../components/CountryCard';
 import { sortAlphabetically } from '../utils/functions';
+import SkeletonCard from '../components/SkeletonCard';
+import { ColorModeContext } from '../components/App';
 
 export default function Home() {
+	const { loadingOverride } = useContext(ColorModeContext);
+
 	const [searchParams, setSearchParams] = useSearchParams();
 	const dataArray = useLoaderData();
 	const sorted = dataArray.sort(sortAlphabetically);
+	const { state } = useNavigation();
 
 	return (
 		<Box className="Home" pt={4}>
@@ -20,6 +26,7 @@ export default function Home() {
 					<Filter setSearchParams={setSearchParams} />
 				</Grid>
 			</Grid>
+
 			<Grid
 				container
 				spacing={4}
@@ -27,9 +34,9 @@ export default function Home() {
 				flexDirection={{ xs: 'column', md: 'row' }}
 				alignContent={{ xs: 'center', md: 'start' }}
 			>
-				{sorted.map((country, i) => (
-					<CountryCard country={country} key={i} />
-				))}
+				{state === 'loading' || loadingOverride
+					? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((_, i) => <SkeletonCard key={i} />)
+					: sorted.map((country, i) => <CountryCard country={country} key={i} />)}
 			</Grid>
 		</Box>
 	);
