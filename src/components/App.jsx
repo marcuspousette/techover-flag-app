@@ -1,10 +1,10 @@
 import './App.css';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState, createContext, useMemo } from 'react';
 import { getDesignTokens } from '../utils/theme';
 import { getBlueTheme } from '../utils/blue';
 import { getGreenTheme } from '../utils/green';
 import { getCraztTheme } from '../utils/crazy';
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import Home, { allCountrysLoader } from '../pages/Home';
 import CountryDetails, { countryDetailsLoader } from '../pages/CountryDetails';
@@ -32,6 +32,8 @@ function App() {
 	const [mode, setMode] = useState('dark');
 	const [themeIndex, setThemeIndex] = useState(0);
 	const [loadingOverride, setLoadingOverride] = useState(false);
+	const [noContainer, setNoContainer] = useState(false);
+	const [isAligned, setisAligned] = useState(false);
 
 	const context = useMemo(() => ({
 		toggleColorMode: () => {
@@ -43,14 +45,22 @@ function App() {
 		toggleLoadingOverride: (value) => {
 			setLoadingOverride(value);
 		},
-		loadingOverride
+		toggleNoContainer: (value) => {
+			setNoContainer(value);
+		},
+		toggleisAligned: (value) => {
+			setisAligned(value);
+		},
+		loadingOverride,
+		noContainer,
+		isAligned
 	}));
 
 	const projectTheme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 	const blueTheme = useMemo(() => createTheme(getBlueTheme(mode)), [mode]);
 	const greenTheme = useMemo(() => createTheme(getGreenTheme(mode)), [mode]);
 	const crazyTheme = useMemo(() => createTheme(getCraztTheme(mode)), [mode]);
-	const themes = [projectTheme, blueTheme, greenTheme, crazyTheme];
+	const themes = [projectTheme, greenTheme, crazyTheme];
 
 	return (
 		<ColorModeContext.Provider value={context}>

@@ -1,15 +1,16 @@
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
+import { ColorModeContext } from './App';
 //
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
 import Filter3Icon from '@mui/icons-material/Filter3';
-import Filter4Icon from '@mui/icons-material/Filter4';
+import AlignVerticalCenterIcon from '@mui/icons-material/AlignVerticalCenter';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import AlignHorizontalCenterIcon from '@mui/icons-material/AlignHorizontalCenter';
 //
 import { Paper, Divider, ToggleButton } from '@mui/material';
 import ToggleButtonGroup, { toggleButtonGroupClasses } from '@mui/material/ToggleButtonGroup';
-import { ColorModeContext } from './App';
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 	[`& .${toggleButtonGroupClasses.grouped}`]: {
@@ -26,12 +27,14 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 	}
 }));
 
-export default function CustomizedDividers() {
-	const colorMode = React.useContext(ColorModeContext);
-	const [themeIndex, setThemeIndex] = React.useState(0);
-	const [overrideLoading, setOverrideLoading] = React.useState(true);
+export default function Toolbar() {
+	const colorMode = useContext(ColorModeContext);
+	const [themeIndex, setThemeIndex] = useState(0);
+	const [overrideLoading, setOverrideLoading] = useState(true);
+	const [noContainer, setNoContainer] = useState(true);
+	const [isAligned, setisAligned] = useState(true);
 
-	const handleFormat = (event, value) => {
+	const handleLoading = (event, value) => {
 		colorMode.toggleLoadingOverride(value === false ? true : false);
 		setOverrideLoading((v) => (v === false ? true : false));
 	};
@@ -40,6 +43,16 @@ export default function CustomizedDividers() {
 		if (themeIndex === null) return;
 		colorMode.toggleColorTheme(themeIndex);
 		setThemeIndex(themeIndex);
+	};
+
+	const handleNoContainer = (event, value) => {
+		colorMode.toggleNoContainer(value === true ? false : true);
+		setNoContainer((v) => (v === true ? false : true));
+	};
+
+	const handleisAligned = (event, value) => {
+		colorMode.toggleisAligned(value === true ? false : true);
+		setisAligned((v) => (v === true ? false : true));
 	};
 
 	return (
@@ -52,7 +65,7 @@ export default function CustomizedDividers() {
 				bottom: 50,
 				left: '50%',
 				transform: 'translateX(-50%)',
-				minWidth: 227
+				minWidth: 277
 			}}
 		>
 			<StyledToggleButtonGroup
@@ -71,14 +84,21 @@ export default function CustomizedDividers() {
 				<ToggleButton value={2}>
 					<Filter3Icon />
 				</ToggleButton>
-				<ToggleButton value={3}>
-					<Filter4Icon />
-				</ToggleButton>
 			</StyledToggleButtonGroup>
 			<Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
-			<StyledToggleButtonGroup exclusive size="small" value={overrideLoading} onChange={handleFormat}>
+			<StyledToggleButtonGroup exclusive size="small" value={overrideLoading} onChange={handleLoading}>
 				<ToggleButton value={false}>
 					<HourglassTopIcon />
+				</ToggleButton>
+			</StyledToggleButtonGroup>
+			<StyledToggleButtonGroup exclusive size="small" value={noContainer} onChange={handleNoContainer}>
+				<ToggleButton value={true}>
+					<AlignHorizontalCenterIcon />
+				</ToggleButton>
+			</StyledToggleButtonGroup>
+			<StyledToggleButtonGroup exclusive size="small" value={isAligned} onChange={handleisAligned}>
+				<ToggleButton value={true}>
+					<AlignVerticalCenterIcon />
 				</ToggleButton>
 			</StyledToggleButtonGroup>
 		</Paper>

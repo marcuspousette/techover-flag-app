@@ -6,7 +6,7 @@ import { ColorModeContext } from '../components/App';
 import { useContext } from 'react';
 
 export default function CountryDetails() {
-	const { loadingOverride } = useContext(ColorModeContext);
+	const { loadingOverride, isAligned } = useContext(ColorModeContext);
 	const { state } = useNavigation();
 	const navigate = useNavigate();
 	const [country] = useLoaderData();
@@ -21,7 +21,7 @@ export default function CountryDetails() {
 				</Grid>
 			</Grid>
 			<Grid container columnSpacing={8} mt={4} rowSpacing={8}>
-				<Grid item md={6} xs={12}>
+				<Grid item md={6} xs={12} sx={{ transform: `translateY(${isAligned ? '-100px' : ''})` }}>
 					{loadingOverride || state === 'loading' ? (
 						<Skeleton variant="rounded" width={'100%'} height={'100%'} />
 					) : (
@@ -33,7 +33,7 @@ export default function CountryDetails() {
 						/>
 					)}
 				</Grid>
-				<Grid item md={6} xs={12}>
+				<Grid item md={6} xs={12} sx={{ transform: `translateY(${isAligned ? '100px' : ''})` }}>
 					<Stack justifyContent="center" alignItems="start">
 						<Typography gutterBottom variant="h3" component="div" color={'primary'}>
 							{loadingOverride || state === 'loading' ? <Skeleton width={200} /> : country.name.common}

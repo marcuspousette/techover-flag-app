@@ -7,10 +7,12 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Button, Box, Container, Typography, Toolbar, AppBar } from '@mui/material';
 import techoverLogoDark from '../assets/techover-logo-dark.png';
 import techoverLogo from '../assets/techover-logo.png';
+import { unStyleContainer } from '../utils/unstyle';
 
 export default function Navbar() {
 	const theme = useTheme();
 	const colorMode = React.useContext(ColorModeContext);
+
 	return (
 		<AppBar
 			position="static"
@@ -18,7 +20,7 @@ export default function Navbar() {
 				bgcolor: theme.palette.background.paper
 			}}
 		>
-			<Container>
+			<Container style={colorMode.noContainer ? unStyleContainer : {}}>
 				<Toolbar sx={{ justifyContent: 'space-between' }}>
 					<Typography variant="h6" component="div" color={'primary'}>
 						The Flag App
